@@ -19,7 +19,9 @@ namespace mkv2mp4
     {
         private ObservableCollection<MkvFile> fileToConvert = new ObservableCollection<MkvFile>();
 
-        private string filePath;
+
+        //文件保存目录
+        private string fileDirectory;
 
         public MainWindow()
         {
@@ -46,7 +48,7 @@ namespace mkv2mp4
 
                     if (result == System.Windows.Forms.DialogResult.OK && !string.IsNullOrWhiteSpace(fbd.SelectedPath))
                     {
-                        filePath = fbd.SelectedPath;
+                        fileDirectory = fbd.SelectedPath;
                         tempName = Directory.GetFiles(fbd.SelectedPath);  
                     }
                 }
@@ -57,7 +59,7 @@ namespace mkv2mp4
                 OpenFileDialog fileDialog = new OpenFileDialog();
                 if (fileDialog.ShowDialog() == true)
                 {
-                    filePath = Path.GetDirectoryName(fileDialog.FileName);
+                    fileDirectory = Path.GetDirectoryName(fileDialog.FileName);
                     tempName = new string[1];
                     tempName[0] = fileDialog.FileName;  //fileDialog.FileName包含目录部分
                 }
@@ -86,18 +88,11 @@ namespace mkv2mp4
 
         private void ExecuteTask_Click(object sender, RoutedEventArgs e)
         {
-            List<string> info;
-            foreach(MkvFile file in fileToConvert)
+            for(int i = 0; i<fileToConvert.Count; i++)
             {
-                string fullPath = Path.Combine(filePath, file.FileName);
-                if (MkvConvert.ParseMkvInfo(fullPath, out info) != 0) //not a mkv file 
-                {
-
-                }
-                else
-                {
-
-                }
+                MkvConvert.TryGetMkvInfo(Path.Combine(fileDirectory, fileToConvert[i].FileName), out MkvInfo info);
+                Debug.WriteLine(info.Title);
+                Debug.WriteLine(info.Duration);
             }
         }
     }

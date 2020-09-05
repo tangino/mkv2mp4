@@ -71,6 +71,8 @@
   <ItemGroup>
     <Compile Include="MkvConvert.cs" />
     <Compile Include="MkvInfo.cs" />
+    <Compile Include="TrackInfo.cs" />
+    <Compile Include="ParseMkvInfo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -95,6 +97,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="info.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

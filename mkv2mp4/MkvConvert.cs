@@ -15,10 +15,17 @@ namespace mkv2mp4
         private static readonly string COMBINE_APP_NAME = "mp4box.exe";
         private static readonly int ERR_EXIT_CODE = 0x10086;
 
-        public static int ParseMkvInfo(string fileName, out List<string> info)
+        /// <summary>
+        /// 尝试获取MKV视频文件的信息，如果参数文件不是MKV文件，返回值是一个非0的值
+        /// </summary>
+        /// <param name="fileName">待转换的MKV视频文件</param>
+        /// <param name="info">获取到的MKV视频文件信息</param>
+        /// <returns></returns>
+        public static int TryGetMkvInfo(string fileName, out MkvInfo info)
         {
-            info = new List<string>();
-            var mkvInfo = new Process
+            info = new MkvInfo();
+            ParseMkvInfo infoParser = new ParseMkvInfo();
+            var mkvInfoProcess = new Process
             {
                 StartInfo = new ProcessStartInfo
                 {
@@ -32,20 +39,17 @@ namespace mkv2mp4
 
             try
             {
-                mkvInfo.Start();
-                while (!mkvInfo.StandardOutput.EndOfStream)
+                mkvInfoProcess.Start();
+
+                infoParser.Parse(mkvInfoProcess.StandardOutput, out info);
+
+                mkvInfoProcess.WaitForExit(5000);
+                if (mkvInfoProcess.HasExited)
                 {
-                    string line = mkvInfo.StandardOutput.ReadLine();
-                    info.Add(line);
+                    return mkvInfoProcess.ExitCode;
                 }
 
-                mkvInfo.WaitForExit(5000);
-                if (mkvInfo.HasExited)
-                {
-                    return mkvInfo.ExitCode;
-                }
-
-                mkvInfo.Kill();
+                mkvInfoProcess.Kill();
                 return ERR_EXIT_CODE;
             }
             catch (Exception e)

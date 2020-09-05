@@ -1,0 +1,76 @@
+﻿+ EBML head
+|+ EBML version: 1
+|+ EBML read version: 1
+|+ Maximum EBML ID length: 4
+|+ Maximum EBML size length: 8
+|+ Document type: matroska
+|+ Document type version: 2
+|+ Document type read version: 2
++ Segment: size 1805777401
+|+ Seek head (subentries will be skipped)
+|+ EBML void: size 4044
+|+ Segment information
+| + Timestamp scale: 1000000
+| + Multiplexing application: libebml v1.2.3 + libmatroska v1.3.0
+| + Writing application: mkvmerge v5.8.0 ('No Sleep / Pillow') built on Sep  2 2012 15:37:04
+| + Duration: 00:22:49.408000000
+| + Date: Mon Nov 19 16:49:17 2012 UTC
+| + Title: Friends S.01 (1994) - for Hurtom & TNU by Tenax555 & smak2001
+| + Segment UID: 0x96 0xe0 0x86 0xcd 0x9b 0xf7 0x8d 0xc1 0x89 0x66 0x9f 0x27 0xc9 0x0b 0xb9 0x93
+|+ Tracks
+| + Track
+|  + Track number: 1 (track ID for mkvmerge & mkvextract: 0)
+|  + Track UID: 3861966523
+|  + Track type: video
+|  + Lacing flag: 0
+|  + Minimum cache: 1
+|  + Codec ID: V_MPEG4/ISO/AVC
+|  + Codec's private data: size 46 (H.264 profile: High @L4.1)
+|  + Default duration: 00:00:00.041708332 (23.976 frames/fields per second for a video track)
+|  + Name: Friends Season 01
+|  + Video track
+|   + Pixel width: 1920
+|   + Pixel height: 1080
+|   + Display width: 1920
+|   + Display height: 1080
+| + Track
+|  + Track number: 2 (track ID for mkvmerge & mkvextract: 1)
+|  + Track UID: 11527940868397754553
+|  + Track type: audio
+|  + Codec ID: A_AC3
+|  + Default duration: 00:00:00.032000000 (31.250 frames/fields per second for a video track)
+|  + Language: ukr
+|  + Name: AC3 2.0 @ 192 kbps 1+1
+|  + Audio track
+|   + Sampling frequency: 48000.0
+|   + Channels: 2
+| + Track
+|  + Track number: 3 (track ID for mkvmerge & mkvextract: 2)
+|  + Track UID: 2656222851
+|  + Track type: audio
+|  + Default track flag: 0
+|  + Codec ID: A_AC3
+|  + Default duration: 00:00:00.032000000 (31.250 frames/fields per second for a video track)
+|  + Name: AC3 5.1 @ 640 kbps
+|  + Audio track
+|   + Sampling frequency: 48000.0
+|   + Channels: 6
+| + Track
+|  + Track number: 4 (track ID for mkvmerge & mkvextract: 3)
+|  + Track UID: 3485261985
+|  + Track type: audio
+|  + Default track flag: 0
+|  + Codec ID: A_AC3
+|  + Default duration: 00:00:00.032000000 (31.250 frames/fields per second for a video track)
+|  + Name: Commentary
+|  + Audio track
+|   + Sampling frequency: 48000.0
+|   + Channels: 2
+| + Track
+|  + Track number: 5 (track ID for mkvmerge & mkvextract: 4)
+|  + Track UID: 46416257
+|  + Track type: subtitles
+|  + Lacing flag: 0
+|  + Codec ID: S_TEXT/UTF8
+|+ EBML void: size 1199
+|+ Cluster
