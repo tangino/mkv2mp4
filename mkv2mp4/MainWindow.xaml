@@ -6,8 +6,8 @@
     xmlns:local="clr-namespace:mkv2mp4"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     Title="mkv2mp4"
-    Width="437.164"
-    Height="393.821"
+    Width="545"
+    Height="550"
     mc:Ignorable="d">
     <Grid>
         <TabControl>
@@ -15,7 +15,7 @@
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="auto" />
-                        <RowDefinition Height="*" />
+                        <RowDefinition Height="auto" />
                     </Grid.RowDefinitions>
                     <StackPanel
                         Grid.Row="0"
@@ -23,18 +23,18 @@
                         Orientation="Vertical">
                         <ListView
                             x:Name="fileList"
-                            MaxHeight="300"
+                            MaxHeight="350"
                             ScrollViewer.HorizontalScrollBarVisibility="Auto"
-                            ScrollViewer.VerticalScrollBarVisibility="Visible">
+                            ScrollViewer.VerticalScrollBarVisibility="Auto"
+                            SelectionChanged="FileList_SelectionChanged">
                             <ListView.View>
                                 <GridView AllowsColumnReorder="False">
                                     <GridViewColumn Width="80" Header="序号">
-
                                         <GridViewColumn.CellTemplate>
                                             <DataTemplate>
                                                 <TextBlock
                                                     Width="75"
-                                                    Text="{Binding Num}"
+                                                    Text="{Binding Path=Num}"
                                                     TextAlignment="Center" />
                                             </DataTemplate>
                                         </GridViewColumn.CellTemplate>
@@ -47,6 +47,13 @@
                                 </GridView>
                             </ListView.View>
                         </ListView>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Margin="5" Text="文件数量: " />
+                            <TextBlock
+                                x:Name="fileCountTextBlock"
+                                Margin="5"
+                                Foreground="LightGreen" />
+                        </StackPanel>
                         <Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="*" />
@@ -57,20 +64,20 @@
                             <Button
                                 x:Name="addButton"
                                 Grid.Column="0"
-                                Margin="0,10,0,0"
+                                Margin="0,5,0,0"
                                 Padding="3"
                                 Click="AddButton_Click"
                                 Content="添加文件" />
                             <Button
                                 x:Name="executeTask"
                                 Grid.Column="1"
-                                Margin="5,10,0,0"
+                                Margin="5,5,0,0"
                                 Click="ExecuteTask_Click"
                                 Content="执行任务" />
                             <CheckBox
                                 x:Name="batchMode"
                                 Grid.Column="2"
-                                Margin="20,10,5,0"
+                                Margin="10,5,5,0"
                                 VerticalAlignment="Center"
                                 VerticalContentAlignment="Center"
                                 Checked="BatchMode_Checked"
@@ -80,8 +87,40 @@
 
                     </StackPanel>
 
-                    <StackPanel Grid.Row="1" Orientation="Horizontal">
-                        <TextBox />
+                    <StackPanel
+                        Grid.Row="1"
+                        Margin="0,10,0,0"
+                        Orientation="Vertical">
+                        <TextBlock Text="轨道，章节和标签：" />
+                        <ListView x:Name="trackInfoView" Margin="0,10,0,0">
+                            <ListView.View>
+                                <GridView>
+                                    <GridViewColumn Width="80" Header="轨道">
+                                        <GridViewColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <CheckBox Content="{Binding Path=TrackNum}" IsChecked="{Binding Path=IsEnabled, Mode=TwoWay}" />
+                                            </DataTemplate>
+                                        </GridViewColumn.CellTemplate>
+                                    </GridViewColumn>
+                                    <GridViewColumn
+                                        Width="100"
+                                        DisplayMemberBinding="{Binding Path=TrackType}"
+                                        Header="轨道类型" />
+                                    <GridViewColumn
+                                        Width="100"
+                                        DisplayMemberBinding="{Binding Path=Resolution}"
+                                        Header="分辨率" />
+                                    <GridViewColumn
+                                        Width="100"
+                                        DisplayMemberBinding="{Binding Path=CodecID}"
+                                        Header="编码格式" />
+                                    <GridViewColumn
+                                        Width="100"
+                                        DisplayMemberBinding="{Binding Path=TrackLanguage}"
+                                        Header="语言" />
+                                </GridView>
+                            </ListView.View>
+                        </ListView>
                     </StackPanel>
                 </Grid>
             </TabItem>
@@ -90,11 +129,4 @@
             </TabItem>
         </TabControl>
     </Grid>
-
-    <!--
-
-    <TextBlock Grid.Column="0" Grid.Row="0" Text="文件/目录：" VerticalAlignment="Center"/>
-    <TextBox Grid.Column="1" Grid.Row="0"  Name="filePath" Height="22" VerticalContentAlignment="Center"/>
-
-    -->
 </Window>

@@ -7,6 +7,9 @@ using System.Windows.Forms;
 using System.Linq;
 using OpenFileDialog = Microsoft.Win32.OpenFileDialog;
 using System.Collections.ObjectModel;
+using System.Windows.Controls;
+using ListBox = System.Windows.Controls.ListBox;
+using System.Threading;
 
 namespace mkv2mp4
 {
@@ -19,6 +22,7 @@ namespace mkv2mp4
     {
         private ObservableCollection<MkvFile> fileToConvert = new ObservableCollection<MkvFile>();
 
+        private MkvInfo videoInfo;
 
         //文件保存目录
         private string fileDirectory;
@@ -26,6 +30,12 @@ namespace mkv2mp4
         public MainWindow()
         {
             InitializeComponent();
+            fileToConvert.CollectionChanged += FileToConvert_CollectionChanged;
+        }
+
+        private void FileToConvert_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+        {
+            fileCountTextBlock.Text = fileToConvert.Count.ToString();
         }
 
         private void BatchMode_Checked(object sender, RoutedEventArgs e)
@@ -88,16 +98,44 @@ namespace mkv2mp4
 
         private void ExecuteTask_Click(object sender, RoutedEventArgs e)
         {
-            for(int i = 0; i<fileToConvert.Count; i++)
+            
+            for (int i = 0; i<fileToConvert.Count; i++)
             {
-                MkvConvert.TryGetMkvInfo(Path.Combine(fileDirectory, fileToConvert[i].FileName), out MkvInfo info);
-                Debug.WriteLine(info.Title);
-                Debug.WriteLine(info.Duration);
+                string fullPathName = Path.Combine(fileDirectory, fileToConvert[i].FileName);
+                int result = MkvConvert.TryGetMkvInfo(fullPathName, out MkvInfo info);
+                if (result == 0)
+                {
+                    videoInfo = videoInfo ?? info;
+                    int res = MkvConvert.ConvertMkv2Mp4(fullPathName, videoInfo);
+                    Debug.WriteLine("convert result: " + res);
+                }
             }
+        }
+
+        private void FileList_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
+        {
+            System.Windows.Controls.ListView listView = e.OriginalSource as System.Windows.Controls.ListView;
+
+            int index = listView.SelectedIndex;
+            if (index != -1)
+            {
+                MkvConvert.TryGetMkvInfo(Path.Combine(fileDirectory, fileToConvert[index].FileName), out videoInfo);
+
+                foreach(TrackInfo track in videoInfo.Tracks)
+                {
+                    track.PropertyChanged += Track_PropertyChanged;
+                }
+                trackInfoView.ItemsSource = videoInfo.Tracks;
+            }
+        }
+
+        private void Track_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            trackInfoView.ItemsSource = videoInfo.Tracks;
         }
     }
 
-    class MkvFile
+    public class MkvFile
     {
         public int Num { get; set; }
         public string FileName { get; set; }

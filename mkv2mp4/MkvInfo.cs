@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -12,7 +13,7 @@ namespace mkv2mp4
 
         public string Duration { get; set; }
 
-        public List<TrackInfo> Tracks { get; set; } = new List<TrackInfo>();
+        public ObservableCollection<TrackInfo> Tracks { get; set; } = new ObservableCollection<TrackInfo>();
 
         public override string ToString()
         {

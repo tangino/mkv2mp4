@@ -43,8 +43,10 @@ namespace mkv2mp4
             {
                 TrackInfo trackInfo = new TrackInfo
                 {
-                    TrackNum = lines[1].Split(new char[] { '(' })[0]
+                    IsEnabled = true,
                 };
+                string tempNum = (lines[1].Split(new char[] { '(' })[0].Trim());
+                trackInfo.TrackNum = (int.Parse(tempNum) - 1).ToString();
                 mkvInfo.Tracks.Add(trackInfo);
             }
 
@@ -80,7 +82,7 @@ namespace mkv2mp4
             //parse codec id
             if (lines[0].StartsWith("Codec ID"))
             {
-                mkvInfo.Tracks[index].CodeID = lines[1];
+                mkvInfo.Tracks[index].CodecID = lines[1];
             }
 
             //parse language
